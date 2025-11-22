@@ -325,13 +325,13 @@ export default function UppostPanel() {
               {/* Country */}
               <div>
                 <label className="block text-sm font-bold mb-3 text-foreground">
-                  Country
+                  🌍 Country
                 </label>
                 <input
                   type="text"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors"
+                  className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                   placeholder="(optional)"
                 />
               </div>
@@ -339,13 +339,13 @@ export default function UppostPanel() {
               {/* City */}
               <div>
                 <label className="block text-sm font-bold mb-3 text-foreground">
-                  City
+                  🏙️ City
                 </label>
                 <input
                   type="text"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors"
+                  className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                   placeholder="(optional)"
                 />
               </div>
@@ -353,13 +353,13 @@ export default function UppostPanel() {
               {/* Server */}
               <div>
                 <label className="block text-sm font-bold mb-3 text-foreground">
-                  Server Name
+                  🖥️ Server Name
                 </label>
                 <input
                   type="text"
                   value={server}
                   onChange={(e) => setServer(e.target.value)}
-                  className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors"
+                  className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                   placeholder="(optional)"
                 />
               </div>
