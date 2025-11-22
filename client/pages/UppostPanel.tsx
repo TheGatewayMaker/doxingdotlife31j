@@ -124,46 +124,51 @@ export default function UppostPanel() {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col">
         <Header />
-        <div className="flex-1 flex items-center justify-center px-4">
+        <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
-            <div className="bg-card border border-border rounded-lg p-8">
-              <h1 className="text-3xl font-black mb-2 text-foreground">Uppost Panel</h1>
-              <p className="text-muted-foreground mb-6">Admin access required</p>
+            <div className="bg-card border border-border rounded-xl p-10">
+              <div className="mb-2 w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+                <span className="font-black text-accent-foreground">⚙️</span>
+              </div>
+              <h1 className="text-4xl font-black mb-2 text-foreground">Uppost Panel</h1>
+              <p className="text-muted-foreground mb-8">Admin access required to manage posts</p>
 
-              <form onSubmit={handleLogin} className="space-y-4">
+              <form onSubmit={handleLogin} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Username</label>
+                  <label className="block text-sm font-bold mb-2 text-foreground">Username</label>
                   <input
                     type="text"
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
-                    className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors"
                     placeholder="Enter username"
+                    autoComplete="username"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Password</label>
+                  <label className="block text-sm font-bold mb-2 text-foreground">Password</label>
                   <input
                     type="password"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-4 py-3 bg-background border border-border hover:border-accent/50 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors"
                     placeholder="Enter password"
+                    autoComplete="current-password"
                   />
                 </div>
 
                 {loginError && (
-                  <div className="p-3 bg-destructive bg-opacity-10 border border-destructive rounded text-destructive text-sm">
-                    {loginError}
+                  <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-destructive text-sm font-medium">
+                    ⚠️ {loginError}
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  className="w-full px-4 py-2 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-opacity-90 transition-all"
+                  className="w-full px-4 py-3 bg-accent text-accent-foreground font-bold rounded-lg hover:bg-accent/90 transition-all active:scale-95"
                 >
-                  Login
+                  Login to Dashboard
                 </button>
               </form>
             </div>
