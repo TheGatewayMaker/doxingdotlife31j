@@ -6,6 +6,11 @@ import { handleDemo } from "./routes/demo";
 import { handleUpload } from "./routes/upload";
 import { handleGetPosts } from "./routes/posts";
 import { handleGetServers } from "./routes/servers";
+import {
+  handleDeletePost,
+  handleDeleteMediaFile,
+  handleUpdatePost,
+} from "./routes/admin";
 
 const upload = multer({
   storage: multer.memoryStorage(),
