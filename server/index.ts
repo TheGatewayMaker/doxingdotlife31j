@@ -56,6 +56,7 @@ export function createServer() {
   );
   app.get("/api/posts", handleGetPosts);
   app.get("/api/servers", handleGetServers);
+  app.get("/api/media", handleMediaProxy);
 
   return app;
 }
