@@ -166,12 +166,30 @@ export default function PostDetail() {
                             alt={file.name}
                             className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
                           />
-                        ) : (
+                        ) : file.type.startsWith("video/") ? (
                           <video
                             src={file.url}
                             controls
+                            preload="metadata"
+                            crossOrigin="anonymous"
                             className="w-full h-64 bg-muted"
                           />
+                        ) : file.type.startsWith("audio/") ? (
+                          <div className="w-full h-64 bg-muted flex items-center justify-center">
+                            <audio
+                              src={file.url}
+                              controls
+                              preload="metadata"
+                              crossOrigin="anonymous"
+                              className="w-full"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full h-64 bg-muted flex items-center justify-center">
+                            <p className="text-muted-foreground">
+                              File: {file.name}
+                            </p>
+                          </div>
                         )}
                         <div className="p-4">
                           <p className="text-sm text-muted-foreground truncate">
