@@ -141,18 +141,21 @@ export default function PostDetail() {
               {/* Metadata */}
               <div className="flex flex-wrap gap-3 mb-8">
                 {post.country && (
-                  <span className="inline-block bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold">
-                    🌍 {post.country}
+                  <span className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold">
+                    <GlobeIcon className="w-4 h-4" />
+                    {post.country}
                   </span>
                 )}
                 {post.city && (
-                  <span className="inline-block bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold">
-                    🏙️ {post.city}
+                  <span className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold">
+                    <MapPinIcon className="w-4 h-4" />
+                    {post.city}
                   </span>
                 )}
                 {post.server && (
-                  <span className="inline-block bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold">
-                    🖥️ {post.server}
+                  <span className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold">
+                    <ServerIcon className="w-4 h-4" />
+                    {post.server}
                   </span>
                 )}
               </div>
