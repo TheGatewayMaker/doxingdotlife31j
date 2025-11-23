@@ -50,7 +50,7 @@ export default function Header() {
           </Link>
           <Link
             to="/dox-anyone"
-            className="flex items-center gap-2 px-4 py-2 bg-yellow-500/20 text-yellow-500 font-semibold rounded-lg hover:bg-yellow-500 hover:text-slate-900 transition-all"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
           >
             🔍 Dox Anyone
           </Link>
