@@ -67,6 +67,8 @@ export default function UppostPanel() {
 
   const handleLogout = async () => {
     await logout();
+    setLoginUsername("");
+    setLoginPassword("");
     resetForm();
   };
 
