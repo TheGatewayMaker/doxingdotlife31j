@@ -101,6 +101,9 @@ export default function PostDetail() {
                   src={post.thumbnail}
                   alt={post.title}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="384"%3E%3Crect fill="%23333" width="800" height="384"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-size="20"%3EImage not available%3C/text%3E%3C/svg%3E';
+                  }}
                 />
               </div>
             )}
