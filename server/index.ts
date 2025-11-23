@@ -46,6 +46,11 @@ export function createServer() {
     res.json({ message: ping });
   });
 
+  app.post("/api/test-body", (req, res) => {
+    console.log("Test endpoint - received body:", JSON.stringify(req.body));
+    res.json({ received: req.body });
+  });
+
   app.get("/api/demo", handleDemo);
 
   // Authentication routes
