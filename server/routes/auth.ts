@@ -15,7 +15,8 @@ interface AuthSession {
 
 // In-memory session store with better management
 const sessions: Map<string, AuthSession> = new Map();
-const failedAttempts: Map<string, { count: number; resetTime: number }> = new Map();
+const failedAttempts: Map<string, { count: number; resetTime: number }> =
+  new Map();
 
 // Token validity: 24 hours
 const TOKEN_EXPIRY_MS = 24 * 60 * 60 * 1000;
@@ -33,7 +34,9 @@ const generateToken = (): string => {
 };
 
 // Validate request body structure and types
-const validateAuthRequest = (body: any): { username: string; password: string } | null => {
+const validateAuthRequest = (
+  body: any,
+): { username: string; password: string } | null => {
   // Ensure body exists and is an object
   if (!body || typeof body !== "object") {
     console.error("Auth request body is not an object:", typeof body);
@@ -107,7 +110,10 @@ const resetRateLimit = (identifier: string): void => {
 };
 
 export const handleLogin: RequestHandler = async (req, res) => {
-  const clientIp = (req.headers["x-forwarded-for"] as string)?.split(",")[0] || req.socket.remoteAddress || "unknown";
+  const clientIp =
+    (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
+    req.socket.remoteAddress ||
+    "unknown";
 
   try {
     // Validate request body
@@ -158,7 +164,9 @@ export const handleLogin: RequestHandler = async (req, res) => {
 
     if (!usernameMatch || !passwordMatch) {
       recordFailedAttempt(clientIp);
-      console.warn(`Failed login attempt from ${clientIp} with username: ${username}`);
+      console.warn(
+        `Failed login attempt from ${clientIp} with username: ${username}`,
+      );
       res.status(401).json({ error: "Invalid username or password" });
       return;
     }
@@ -177,7 +185,9 @@ export const handleLogin: RequestHandler = async (req, res) => {
     };
 
     sessions.set(token, session);
-    console.info(`✓ Successful login from ${clientIp} for user: ${validUsername}`);
+    console.info(
+      `✓ Successful login from ${clientIp} for user: ${validUsername}`,
+    );
 
     // Clean up expired sessions
     const expiredTokens: string[] = [];
@@ -197,7 +207,9 @@ export const handleLogin: RequestHandler = async (req, res) => {
     });
   } catch (error) {
     console.error("🔴 Login error:", error);
-    res.status(500).json({ error: "An unexpected error occurred. Please try again." });
+    res
+      .status(500)
+      .json({ error: "An unexpected error occurred. Please try again." });
   }
 };
 
@@ -228,7 +240,9 @@ export const handleCheckAuth: RequestHandler = async (req, res) => {
     const token = req.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
-      res.status(401).json({ authenticated: false, message: "No token provided" });
+      res
+        .status(401)
+        .json({ authenticated: false, message: "No token provided" });
       return;
     }
 
@@ -239,7 +253,9 @@ export const handleCheckAuth: RequestHandler = async (req, res) => {
       if (session) {
         sessions.delete(token);
       }
-      res.status(401).json({ authenticated: false, message: "Token expired or invalid" });
+      res
+        .status(401)
+        .json({ authenticated: false, message: "Token expired or invalid" });
       return;
     }
 
