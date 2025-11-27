@@ -84,7 +84,7 @@ export const handleGetPosts: RequestHandler = async (req, res) => {
           country: postData.country,
           city: postData.city,
           server: postData.server,
-          thumbnail: postData.thumbnail ? `/api/media/${postId}/thumbnail-${postId.split('-')[0]}` : postData.thumbnail,
+          thumbnail: postData.thumbnail,
           nsfw: postData.nsfw || false,
           mediaFiles: mediaFileObjects,
           createdAt: postData.createdAt,
