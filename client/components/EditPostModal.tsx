@@ -149,15 +149,7 @@ export default function EditPostModal({
       }
 
       const result = await response.json();
-      onUpdate({
-        ...post,
-        title: result.post.title,
-        description: result.post.description,
-        country: result.post.country,
-        city: result.post.city,
-        server: result.post.server,
-        nsfw: result.post.nsfw,
-      });
+      onUpdate(result.post);
       toast.success("Post updated successfully");
       onClose();
     } catch (error) {

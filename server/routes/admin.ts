@@ -4,7 +4,10 @@ import {
   deleteMediaFile,
   updatePostMetadataField,
   getPostMetadata,
+  listPostFiles,
+  getMediaUrl,
 } from "../utils/r2-storage";
+import { Post } from "@shared/api";
 
 export const handleDeletePost: RequestHandler = async (req, res) => {
   try {
@@ -57,6 +60,52 @@ export const handleDeleteMediaFile: RequestHandler = async (req, res) => {
   }
 };
 
+const getMimeType = (fileName: string): string => {
+  const extension = fileName.toLowerCase().split(".").pop() || "";
+  const mimeTypes: { [key: string]: string } = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    gif: "image/gif",
+    webp: "image/webp",
+    svg: "image/svg+xml",
+    bmp: "image/bmp",
+    ico: "image/x-icon",
+    tiff: "image/tiff",
+    tif: "image/tiff",
+    jpe: "image/jpeg",
+    mp4: "video/mp4",
+    webm: "video/webm",
+    mov: "video/quicktime",
+    avi: "video/x-msvideo",
+    mkv: "video/x-matroska",
+    flv: "video/x-flv",
+    m4v: "video/x-m4v",
+    mpg: "video/mpeg",
+    mpeg: "video/mpeg",
+    mts: "video/mp2t",
+    m2ts: "video/mp2t",
+    wmv: "video/x-ms-wmv",
+    mxf: "video/mxf",
+    ogv: "video/ogg",
+    mp3: "audio/mpeg",
+    wav: "audio/wav",
+    m4a: "audio/mp4",
+    aac: "audio/aac",
+    flac: "audio/flac",
+    ogg: "audio/ogg",
+    opus: "audio/opus",
+    wma: "audio/x-ms-wma",
+    aiff: "audio/aiff",
+    aif: "audio/aiff",
+    json: "application/json",
+    pdf: "application/pdf",
+    txt: "text/plain",
+  };
+
+  return mimeTypes[extension] || "application/octet-stream";
+};
+
 export const handleUpdatePost: RequestHandler = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -90,11 +139,44 @@ export const handleUpdatePost: RequestHandler = async (req, res) => {
     if (nsfw !== undefined) updates.nsfw = nsfw === "true" || nsfw === true;
 
     const updatedMetadata = await updatePostMetadataField(postId, updates);
+    if (!updatedMetadata) {
+      res.status(500).json({ error: "Failed to update post" });
+      return;
+    }
+
+    const mediaFiles = await listPostFiles(postId);
+    const mediaFileObjects = mediaFiles
+      .map((fileName) => ({
+        name: fileName,
+        url: `/api/media/${postId}/${fileName}`,
+        type: getMimeType(fileName),
+      }))
+      .filter((f) => f.name !== "metadata.json");
+
+    let thumbnail: string | undefined;
+    if ((updatedMetadata as any).thumbnail) {
+      thumbnail = (updatedMetadata as any).thumbnail;
+    } else if (mediaFileObjects.length > 0) {
+      thumbnail = mediaFileObjects[0].url;
+    }
+
+    const post: Post = {
+      id: updatedMetadata.id,
+      title: updatedMetadata.title,
+      description: updatedMetadata.description,
+      country: updatedMetadata.country,
+      city: updatedMetadata.city,
+      server: updatedMetadata.server,
+      thumbnail,
+      nsfw: updatedMetadata.nsfw || false,
+      mediaFiles: mediaFileObjects,
+      createdAt: updatedMetadata.createdAt,
+    };
 
     res.json({
       success: true,
       message: "Post updated successfully",
-      post: updatedMetadata,
+      post,
     });
   } catch (error) {
     console.error("Error updating post:", error);
