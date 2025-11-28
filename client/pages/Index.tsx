@@ -296,24 +296,19 @@ export default function Index() {
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col animate-fadeIn">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col animate-fadeIn">
       <Header />
 
       <main className="flex-1 w-full">
         {/* Hero Section */}
-        <div className="bg-gradient-to-b from-blue-950/50 to-transparent py-8 md:py-16 border-b border-blue-500/20">
+        <div className="bg-gradient-to-b from-gray-900/80 to-transparent py-8 md:py-16 border-b border-gray-700">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="animate-fadeIn" style={{ animationDelay: "0.1s" }}>
-              <div className="mb-2">
-                <span className="inline-flex items-center px-3 py-1 bg-blue-600/20 text-blue-300 text-xs font-bold rounded-full border border-blue-500/40">
-                  🔍 Information Database
-                </span>
-              </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 text-white tracking-tighter leading-tight">
                 Doxing Dot Life
               </h1>
-              <p className="text-base sm:text-lg md:text-xl font-medium text-gray-300 mb-6 max-w-3xl">
-                Search our comprehensive database to find if you or someone you know have been documented. Professional information sharing platform.
+              <p className="text-base sm:text-lg md:text-xl font-medium text-gray-400 mb-6 max-w-3xl">
+                The largest database of exposed individuals. Search, dox, and expose information on anyone in our comprehensive directory.
               </p>
             </div>
 
