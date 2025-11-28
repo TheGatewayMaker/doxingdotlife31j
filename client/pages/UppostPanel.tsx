@@ -215,6 +215,8 @@ export default function UppostPanel() {
     formData.append("city", city);
     formData.append("server", server);
     formData.append("nsfw", String(nsfw));
+    formData.append("isTrend", String(isTrend));
+    formData.append("trendRank", isTrend ? trendRank : "");
     formData.append("thumbnail", thumbnail);
 
     mediaFiles.forEach((file) => {
