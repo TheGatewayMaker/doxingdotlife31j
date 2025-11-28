@@ -287,7 +287,7 @@ export default function AdminPanel() {
         {/* Hero Section */}
         <div className="bg-background py-4 md:py-6 border-b border-border/40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="animate-fadeIn" style={{ animationDelay: "0.1s" }}>
+            <div className="animate-slideInLeftFade" style={{ animationDelay: "0.1s" }}>
               <div className="flex items-center gap-2 mb-3">
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight leading-tight">
@@ -302,7 +302,7 @@ export default function AdminPanel() {
 
             {/* Search Bar */}
             <div
-              className="relative animate-fadeIn mt-4"
+              className="relative animate-scaleUpFadeIn mt-4"
               style={{ animationDelay: "0.2s" }}
             >
               <div className="relative">
@@ -319,7 +319,7 @@ export default function AdminPanel() {
 
             {/* Filter Section */}
             <div
-              className="bg-card border border-border rounded-lg p-4 mt-3 animate-fadeIn"
+              className="bg-card border border-border rounded-lg p-4 mt-3 animate-slideInUp"
               style={{ animationDelay: "0.3s" }}
             >
               <div className="flex items-center gap-2 mb-4">
@@ -388,7 +388,7 @@ export default function AdminPanel() {
 
         {/* Posts Management Section */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="mb-6 sm:mb-8 animate-fadeIn">
+          <div className="mb-6 sm:mb-8 animate-slideInUp">
             {isLoadingPosts ? (
               <>
                 <div className="flex items-center gap-3 mb-3">
@@ -422,10 +422,10 @@ export default function AdminPanel() {
                       </svg>
                     </div>
                   </div>
-                  <h2 className="text-lg font-bold text-foreground mb-2">
+                  <h2 className="text-lg font-bold text-foreground mb-2 animate-popIn" style={{ animationDelay: "0.2s" }}>
                     No Posts Found
                   </h2>
-                  <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+                  <p className="text-xs text-muted-foreground max-w-sm mx-auto animate-slideInUp" style={{ animationDelay: "0.3s" }}>
                     {searchQuery || selectedCountry
                       ? "Your search didn't match any posts. Try adjusting your filters."
                       : "No posts available at the moment."}
@@ -460,7 +460,7 @@ export default function AdminPanel() {
                     post={post}
                     onDelete={handleDeletePost}
                     onUpdate={handlePostUpdated}
-                    animationDelay={idx * 0.05}
+                    animationDelay={idx * 0.08}
                     getIdToken={getIdToken}
                   />
                 ))}
@@ -468,7 +468,7 @@ export default function AdminPanel() {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-2 sm:gap-3 animate-fadeIn pt-6 border-t border-border/40">
+                <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-2 sm:gap-3 animate-slideInUp pt-6 border-t border-border/40" style={{ animationDelay: "0.4s" }}>
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
