@@ -118,7 +118,8 @@ export default function Header() {
                   onClick={closeSidebar}
                   className="flex items-center gap-3 w-full px-4 py-3 text-white font-semibold hover:bg-blue-600 rounded-lg transition-colors bg-blue-600/20"
                 >
-                  🔍 Dox Anyone
+                  <SearchAltIcon className="w-4 h-4" />
+                  Dox Anyone
                 </Link>
                 {isAuthenticated && (
                   <>
@@ -127,14 +128,16 @@ export default function Header() {
                       onClick={closeSidebar}
                       className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 font-semibold hover:bg-slate-700 hover:text-white rounded-lg transition-colors"
                     >
-                      📤 Upload
+                      <UploadIcon className="w-4 h-4" />
+                      Upload
                     </Link>
                     <Link
                       to="/admin-panel"
                       onClick={closeSidebar}
                       className="flex items-center gap-3 w-full px-4 py-3 text-white font-semibold hover:bg-yellow-600 rounded-lg transition-colors bg-yellow-600/20"
                     >
-                      ⚙️ Admin Panel
+                      <SettingsIcon className="w-4 h-4" />
+                      Admin Panel
                     </Link>
                   </>
                 )}
