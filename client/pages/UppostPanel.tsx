@@ -35,7 +35,7 @@ export default function UppostPanel() {
   const [discordName, setDiscordName] = useState("");
   const [realName, setRealName] = useState("");
   const [age, setAge] = useState("");
-  const [email, setEmail] = useState("");
+  const [personalEmail, setPersonalEmail] = useState("");
   const [ipAddress, setIpAddress] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
