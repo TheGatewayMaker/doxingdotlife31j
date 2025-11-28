@@ -48,14 +48,14 @@ export default function PostDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex flex-col animate-fadeIn">
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col animate-fadeIn">
         <Header />
-        <main className="flex-1 w-full flex items-center justify-center">
+        <main className="flex-1 w-full flex items-center justify-center px-4">
           <div className="text-center">
-            <div className="inline-block animate-spin">
-              <div className="w-12 h-12 border-4 border-muted border-t-accent rounded-full"></div>
+            <div className="inline-block animate-spin mb-4">
+              <div className="w-14 h-14 border-4 border-slate-600 border-t-blue-500 rounded-full"></div>
             </div>
-            <p className="mt-4 text-muted-foreground">Loading post...</p>
+            <p className="text-gray-400 text-lg">Loading post...</p>
           </div>
         </main>
         <Footer />
@@ -65,16 +65,20 @@ export default function PostDetail() {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex flex-col animate-fadeIn">
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col animate-fadeIn">
         <Header />
-        <main className="flex-1 w-full flex items-center justify-center">
+        <main className="flex-1 w-full flex items-center justify-center px-4">
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h2 className="text-3xl font-bold mb-4 text-white">
               {error || "Post not found"}
             </h2>
+            <p className="text-gray-400 mb-6 max-w-sm">
+              The post you're looking for doesn't exist or has been removed.
+            </p>
             <button
               onClick={() => navigate("/")}
-              className="px-4 py-2 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-md"
             >
               ← Back to Home
             </button>
@@ -87,7 +91,7 @@ export default function PostDetail() {
 
   if (showNSFWWarning && !nsfwApproved && post.nsfw) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex flex-col animate-fadeIn">
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col animate-fadeIn">
         <Header />
         <main className="flex-1 w-full flex items-center justify-center p-4">
           <NSFWWarningModal
