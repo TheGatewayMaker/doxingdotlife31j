@@ -143,6 +143,8 @@ export default function EditPostModal({
           city: city.trim(),
           server: server.trim(),
           nsfw,
+          isTrend,
+          trendRank: isTrend ? (trendRank ? parseInt(trendRank, 10) : null) : null,
         }),
       });
 
