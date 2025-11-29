@@ -271,19 +271,26 @@ export const handleUpload: RequestHandler = async (req, res, next) => {
           details:
             process.env.NODE_ENV === "development"
               ? errorMessage
-              : "Failed to upload files to storage. Please check your server configuration.",
+              : "Failed to upload files to storage. Please check your R2 configuration and try again.",
         });
         responseSent = true;
       }
-      return;
+      // Don't return here to let it fall through to the outer catch
+      throw r2Error;
     }
   } catch (error) {
+    // Prevent double response
+    if (responseSent) {
+      return;
+    }
+
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(
       `[${new Date().toISOString()}] ❌ Upload error (general):`,
       errorMessage,
     );
     console.error("Full error details:", error);
+
     if (!res.headersSent) {
       res.status(500).json({
         error: "Upload failed",
