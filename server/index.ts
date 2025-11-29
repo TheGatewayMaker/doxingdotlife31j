@@ -56,6 +56,20 @@ export function createServer() {
     },
   );
 
+  // Request logging middleware
+  app.use((req, res, next) => {
+    const start = Date.now();
+    const originalJson = res.json;
+
+    res.json = function (body) {
+      const duration = Date.now() - start;
+      console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - ${res.statusCode} (${duration}ms)`);
+      return originalJson.call(this, body);
+    };
+
+    next();
+  });
+
   // Health check endpoint
   app.get("/api/health", (_req, res) => {
     const hasFirebaseConfig = !!process.env.FIREBASE_PROJECT_ID;
