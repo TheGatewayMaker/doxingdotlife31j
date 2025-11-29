@@ -4,6 +4,7 @@ import {
   getPostWithThumbnail,
   listPostFiles,
   getMediaUrl,
+  deletePostFolder,
 } from "../utils/r2-storage";
 import { Post } from "@shared/api";
 
