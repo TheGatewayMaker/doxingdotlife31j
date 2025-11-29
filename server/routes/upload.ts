@@ -259,9 +259,18 @@ export const handleUpload: RequestHandler = async (req, res, next) => {
       if (server && server.trim()) {
         try {
           const servers = await getServersList();
-          const updatedServers = Array.from(new Set([...servers, server]));
-          updatedServers.sort();
-          await updateServersList(updatedServers);
+
+          // Ensure servers is an array before spreading
+          if (!Array.isArray(servers)) {
+            console.warn("Servers list is not an array, initializing with empty array");
+            await updateServersList([server.trim()]);
+          } else {
+            const serverSet = new Set(servers);
+            serverSet.add(server.trim());
+            const updatedServers = Array.from(serverSet);
+            updatedServers.sort();
+            await updateServersList(updatedServers);
+          }
         } catch (serverError) {
           console.error("Error updating servers list:", serverError);
         }
