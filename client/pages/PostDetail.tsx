@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Share2, Trash2 } from "lucide-react";
+import { Share2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MediaViewer from "@/components/MediaViewer";
@@ -14,7 +14,6 @@ export default function PostDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [thumbnailError, setThumbnailError] = useState(false);
-  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const loadPost = async () => {
