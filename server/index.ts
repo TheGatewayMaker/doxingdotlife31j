@@ -36,6 +36,26 @@ export function createServer() {
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
+  // Error handling for body parsing
+  app.use(
+    (
+      err: any,
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      if (err instanceof SyntaxError && "body" in err) {
+        console.error("JSON parse error:", err);
+        return res.status(400).json({
+          error: "Invalid JSON in request body",
+          details:
+            process.env.NODE_ENV === "development" ? err.message : undefined,
+        });
+      }
+      next(err);
+    },
+  );
+
   // Health check endpoint
   app.get("/api/health", (_req, res) => {
     const hasFirebaseConfig = !!process.env.FIREBASE_PROJECT_ID;
