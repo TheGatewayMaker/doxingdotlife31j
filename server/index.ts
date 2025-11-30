@@ -34,8 +34,10 @@ export function createServer() {
   );
 
   // JSON and URL-encoded body parsing with proper limits
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+  // Note: multipart/form-data is NOT parsed by these - it's handled by multer
+  // Keep these reasonable since actual file data goes through multer's memory storage
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Error handling for body parsing
   app.use(
