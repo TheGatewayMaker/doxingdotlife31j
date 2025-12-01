@@ -6,11 +6,7 @@ import Footer from "@/components/Footer";
 import { UploadIcon, ImageIcon } from "@/components/Icons";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import {
-  generatePresignedUrls,
-  uploadFilesToR2Parallel,
-  validateUploadInputs,
-} from "@/lib/r2-upload";
+import { validateUploadInputs } from "@/lib/r2-upload";
 
 export default function UppostPanel() {
   const navigate = useNavigate();
@@ -204,115 +200,58 @@ export default function UppostPanel() {
         throw new Error("Authentication token not available");
       }
 
-      // Step 1: Generate presigned URLs for all files
-      setUploadMessage("Preparing upload URLs...");
-
-      const filesForPresignedUrls = [
-        {
-          fileName: `thumbnail-${Date.now()}`,
-          contentType: thumbnail.type || "image/jpeg",
-          fileSize: thumbnail.size,
-        },
-        ...mediaFiles.map((file, idx) => ({
-          fileName: file.name,
-          contentType: file.type || "application/octet-stream",
-          fileSize: file.size,
-        })),
-      ];
-
-      const urlsResponse = await generatePresignedUrls(
-        filesForPresignedUrls,
-        idToken,
-      );
-
-      const postId = urlsResponse.postId;
-      const presignedUrls = urlsResponse.presignedUrls;
-
-      // Step 2: Upload all files directly to R2 using presigned URLs
       setUploadMessage("Uploading files to storage...");
 
-      const thumbnailPresignedUrl = presignedUrls[0];
-      const mediaPresignedUrls = presignedUrls.slice(1);
+      // Create FormData for multipart upload
+      const formData = new FormData();
 
-      // Upload thumbnail first
-      await uploadFilesToR2Parallel(
-        [thumbnail],
-        [thumbnailPresignedUrl],
-        (completed, total) => {
-          setUploadMessage(
-            `Uploading files (${completed}/${total + mediaFiles.length})...`,
-          );
-        },
-      );
+      // Add form fields
+      formData.append("title", title);
+      formData.append("description", completeDescription);
+      formData.append("country", country);
+      formData.append("city", city);
+      formData.append("server", server);
+      formData.append("nsfw", nsfw.toString());
+      formData.append("isTrend", isTrend.toString());
+      formData.append("trendRank", isTrend ? trendRank : "");
 
-      // Upload media files in parallel
-      const uploadResults = await uploadFilesToR2Parallel(
-        mediaFiles,
-        mediaPresignedUrls,
-        (completed, total) => {
-          setUploadMessage(
-            `Uploading files (${completed + 1}/${total + mediaFiles.length})...`,
-          );
-        },
-      );
+      // Add thumbnail
+      formData.append("thumbnail", thumbnail);
 
-      // Check for upload errors
-      const failedUploads = uploadResults.filter((r) => !r.success);
-      if (failedUploads.length > 0) {
-        const errorDetails = failedUploads
-          .map((r) => `${r.fileName}: ${r.error}`)
-          .join("; ");
-        throw new Error(
-          `Failed to upload ${failedUploads.length} file(s): ${errorDetails}`,
-        );
-      }
-
-      // Step 3: Store metadata on server
-      setUploadMessage("Finalizing post...");
-
-      const mediaFileNames = presignedUrls.slice(1).map((url) => url.fileName);
-
-      const metadataResponse = await fetch("/api/upload-metadata", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          postId,
-          title,
-          description: completeDescription,
-          country: country || "",
-          city: city || "",
-          server: server || "",
-          nsfw: nsfw,
-          thumbnailFileName: thumbnailPresignedUrl.fileName,
-          mediaFiles: mediaFileNames,
-          isTrend: isTrend,
-          trendRank: isTrend ? trendRank : "",
-        }),
+      // Add media files
+      mediaFiles.forEach((file) => {
+        formData.append("media", file);
       });
 
-      if (!metadataResponse.ok) {
-        let errorMsg = "Failed to store post metadata";
+      // Upload directly to /api/upload endpoint
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        let errorMsg = "Failed to upload post";
         try {
-          const errorData = await metadataResponse.json();
+          const errorData = await response.json();
           if (errorData.error) {
             errorMsg = errorData.error;
           }
           if (errorData.details) {
-            errorMsg += ` (${errorData.details})`;
+            errorMsg += `: ${errorData.details}`;
           }
         } catch (parseError) {
           console.error("Failed to parse error response", parseError);
-          errorMsg = `Failed with status ${metadataResponse.status}`;
+          errorMsg = `Upload failed with status ${response.status}`;
         }
         throw new Error(errorMsg);
       }
 
-      const metadataData = await metadataResponse.json();
+      const uploadData = await response.json();
       setUploadMessage(
-        `Post uploaded successfully! ${metadataData.mediaCount ? `(${metadataData.mediaCount} media file(s))` : ""}`,
+        `Post uploaded successfully! (${uploadData.mediaCount || 0} media file(s))`,
       );
       toast.success("Post uploaded successfully!");
       resetForm();
