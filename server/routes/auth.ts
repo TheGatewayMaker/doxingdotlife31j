@@ -79,6 +79,9 @@ export const authMiddleware: (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      console.warn(
+        `[${new Date().toISOString()}] Auth attempt without valid bearer token for: ${req.method} ${req.path}`
+      );
       res.status(401).json({
         error: "No authentication token provided",
       });
@@ -86,13 +89,16 @@ export const authMiddleware: (
     }
 
     const idToken = authHeader.replace("Bearer ", "");
+    console.log(
+      `[${new Date().toISOString()}] Attempting to verify token for: ${req.method} ${req.path}`
+    );
 
     try {
       const verifiedToken = await verifyFirebaseToken(idToken);
 
       if (!verifiedToken.isAuthorized) {
         console.warn(
-          `Unauthorized access attempt from email: ${verifiedToken.email}`,
+          `[${new Date().toISOString()}] Unauthorized access attempt from email: ${verifiedToken.email}`,
         );
         res.status(403).json({
           error: "Email is not authorized to access this resource",
@@ -111,16 +117,20 @@ export const authMiddleware: (
       );
       next();
     } catch (tokenError) {
+      const errorMsg = tokenError instanceof Error ? tokenError.message : String(tokenError);
       console.warn(
-        `Token verification failed:`,
-        tokenError instanceof Error ? tokenError.message : tokenError,
+        `[${new Date().toISOString()}] Token verification failed: ${errorMsg}`
       );
       res.status(401).json({
         error: "Invalid or expired authentication token",
+        details: process.env.NODE_ENV === "development" ? errorMsg : undefined,
       });
     }
   } catch (error) {
-    console.error("Auth middleware error:", error);
+    console.error(
+      `[${new Date().toISOString()}] Auth middleware error:`,
+      error
+    );
     res.status(500).json({ error: "Authentication failed" });
   }
 };
