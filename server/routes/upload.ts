@@ -76,23 +76,49 @@ export const handleUpload: RequestHandler = async (req, res, next) => {
   try {
     // Log upload attempt for debugging Netlify issues
     const isNetlify = process.env.NETLIFY === "true";
+    const contentLength = req.get("content-length");
     console.log(
       `[${new Date().toISOString()}] Upload request received on ${isNetlify ? "NETLIFY" : "LOCAL"}`,
       {
         hasFiles: !!req.files,
         filesType: typeof req.files,
         filesKeys: req.files ? Object.keys(req.files) : [],
+        contentLength: contentLength
+          ? `${(parseInt(contentLength) / 1024 / 1024).toFixed(2)}MB`
+          : "unknown",
+        contentType: req.get("content-type") || "unknown",
       },
     );
 
-    // Ensure we have files from multer
-    if (!req.files || typeof req.files !== "object") {
-      console.error("Invalid files object from multer", {
-        filesType: typeof req.files,
-        filesKeys: req.files ? Object.keys(req.files) : [],
-      });
+    // Validate request properties
+    if (!req.files) {
+      console.error(
+        `[${new Date().toISOString()}] req.files is null or undefined`,
+      );
       if (!res.headersSent) {
-        res.status(400).json({ error: "Files object is missing or invalid" });
+        res.status(400).json({
+          error: "Files object is missing",
+          details: "Multipart form parsing failed. Check Content-Type header.",
+        });
+        responseSent = true;
+      }
+      return;
+    }
+
+    // Ensure we have files from multer
+    if (typeof req.files !== "object") {
+      console.error(
+        `[${new Date().toISOString()}] Invalid files object type:`,
+        {
+          filesType: typeof req.files,
+          filesValue: String(req.files).substring(0, 100),
+        },
+      );
+      if (!res.headersSent) {
+        res.status(400).json({
+          error: "Files object is invalid",
+          details: "Expected object, received " + typeof req.files,
+        });
         responseSent = true;
       }
       return;

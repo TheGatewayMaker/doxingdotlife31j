@@ -150,6 +150,19 @@ export const handler = async (event: any, context: any) => {
         result.headers["Content-Type"] = "application/json";
       }
 
+      // Preserve security headers from Express middleware
+      // These are critical for upload functionality
+      if (!result.headers["Cross-Origin-Opener-Policy"]) {
+        result.headers["Cross-Origin-Opener-Policy"] =
+          "same-origin-allow-popups";
+      }
+      if (!result.headers["Cross-Origin-Embedder-Policy"]) {
+        result.headers["Cross-Origin-Embedder-Policy"] = "require-corp";
+      }
+      if (!result.headers["X-Content-Type-Options"]) {
+        result.headers["X-Content-Type-Options"] = "nosniff";
+      }
+
       // Ensure body is a string if it's an API response
       if (
         result.body &&

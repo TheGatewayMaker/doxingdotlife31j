@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { LogOut, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -32,6 +32,7 @@ export default function UppostPanel() {
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState("");
   const [uploadError, setUploadError] = useState("");
+  const uploadAbortControllerRef = useRef<AbortController | null>(null);
 
   // Personal Info Fields (Optional)
   const [discordUsername, setDiscordUsername] = useState("");
@@ -234,14 +235,37 @@ export default function UppostPanel() {
         `[Upload] Sending request with ${mediaFiles.length} media files and 1 thumbnail`,
       );
 
-      const uploadResponse = await fetch("/api/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-          // Note: Content-Type is NOT set for FormData - browser will set it with correct boundary
+      // Create abort controller for request timeout handling
+      uploadAbortControllerRef.current = new AbortController();
+      const uploadTimeout = setTimeout(
+        () => {
+          uploadAbortControllerRef.current?.abort();
+          console.error("[Upload] Request timeout - aborting upload");
         },
-        body: formData,
-      });
+        35 * 60 * 1000,
+      ); // 35 minutes (slightly more than server's 30 min timeout)
+
+      let uploadResponse;
+      try {
+        uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            // Note: Content-Type is NOT set for FormData - browser will set it with correct boundary
+          },
+          body: formData,
+          signal: uploadAbortControllerRef.current.signal,
+        });
+        clearTimeout(uploadTimeout);
+      } catch (fetchError) {
+        clearTimeout(uploadTimeout);
+        if (fetchError instanceof Error && fetchError.name === "AbortError") {
+          throw new Error(
+            "Upload timed out after 35 minutes. Please try again with smaller files.",
+          );
+        }
+        throw fetchError;
+      }
 
       console.log(
         `[Upload] Response status: ${uploadResponse.status} ${uploadResponse.statusText}`,
