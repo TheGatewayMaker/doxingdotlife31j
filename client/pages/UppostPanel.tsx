@@ -507,8 +507,7 @@ export default function UppostPanel() {
                         Click to upload thumbnail
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        All image formats (PNG, JPG, JPEG, GIF, WebP, etc.) •
-                        Max 500MB
+                        All image formats (PNG, JPG, JPEG, GIF, WebP, etc.)
                       </p>
                     </div>
                   )}
@@ -865,8 +864,7 @@ export default function UppostPanel() {
                         Click to upload media files
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Images and videos supported (Max 500MB each, unlimited
-                        quantity)
+                        Images and videos supported (unlimited size and quantity)
                       </p>
                     </div>
                   )}
