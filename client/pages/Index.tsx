@@ -237,9 +237,9 @@ export default function Index() {
                       <p className="text-xs line-clamp-1 mb-2 text-[#979797] flex-1">
                         {post.description}
                       </p>
-                      <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                      <div className="flex flex-wrap gap-1">
                         {post.country && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-[#666666] text-white border border-[#979797] flex-shrink-0">
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-[#666666] text-white border border-[#979797] flex-shrink-0">
                             <GlobeIcon className="w-3 h-3" />
                             <span className="hidden sm:inline">
                               {post.country}
@@ -250,7 +250,7 @@ export default function Index() {
                           </span>
                         )}
                         {post.city && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-[#666666] text-white border border-[#979797] flex-shrink-0">
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-[#666666] text-white border border-[#979797] flex-shrink-0">
                             <MapPinIcon className="w-3 h-3" />
                             <span className="hidden sm:inline">
                               {post.city}
@@ -261,7 +261,7 @@ export default function Index() {
                           </span>
                         )}
                         {post.server && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-[#666666] text-white border border-[#979797] flex-shrink-0">
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-[#666666] text-white border border-[#979797] flex-shrink-0">
                             <ServerIcon className="w-3 h-3" />
                             <span className="hidden sm:inline">
                               {post.server}
