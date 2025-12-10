@@ -60,9 +60,12 @@ export function createServer() {
       origin: "*",
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: false,
+      credentials: true, // Allow cookies to be sent
     }),
   );
+
+  // Cookie parser middleware - MUST come before route handlers
+  app.use(cookieParser());
 
   // JSON and URL-encoded body parsing with increased limits for VPS
   // Note: multipart/form-data is NOT parsed by these - it's handled by multer
