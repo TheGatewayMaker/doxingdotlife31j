@@ -7,7 +7,6 @@ interface EditPostModalProps {
   post: Post;
   onClose: () => void;
   onUpdate: (post: Post) => void;
-  getIdToken: () => Promise<string | null>;
 }
 
 const COUNTRIES = [
@@ -100,7 +99,6 @@ export default function EditPostModal({
   post,
   onClose,
   onUpdate,
-  getIdToken,
 }: EditPostModalProps) {
   const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
@@ -125,17 +123,13 @@ export default function EditPostModal({
 
     try {
       setIsSaving(true);
-      const idToken = await getIdToken();
-      if (!idToken) {
-        throw new Error("Authentication token not available");
-      }
 
       const response = await fetch(`/api/posts/${post.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
         },
+        credentials: "include", // Send session cookie
         body: JSON.stringify({
           title: title.trim(),
           description: description.trim(),

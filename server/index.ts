@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import multer from "multer";
 import { handleDemo } from "./routes/demo";
 import { handleUpload } from "./routes/upload";
@@ -12,7 +13,12 @@ import {
   handleDeleteMediaFile,
   handleUpdatePost,
 } from "./routes/admin";
-import { handleLogout, handleCheckAuth, authMiddleware } from "./routes/auth";
+import {
+  handleLogin,
+  handleLogout,
+  handleCheckAuth,
+  authMiddleware,
+} from "./routes/auth";
 import { validateR2Configuration } from "./utils/r2-storage";
 
 // VPS configuration with proper size handling
@@ -54,9 +60,12 @@ export function createServer() {
       origin: "*",
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: false,
+      credentials: true, // Allow cookies to be sent
     }),
   );
+
+  // Cookie parser middleware - MUST come before route handlers
+  app.use(cookieParser());
 
   // JSON and URL-encoded body parsing with increased limits for VPS
   // Note: multipart/form-data is NOT parsed by these - it's handled by multer
@@ -142,6 +151,7 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
 
   // Authentication routes
+  app.post("/api/auth/login", handleLogin);
   app.post("/api/auth/logout", handleLogout);
   app.get("/api/auth/check", handleCheckAuth);
 
@@ -217,18 +227,6 @@ export function createServer() {
       return res.status(400).json({
         error: "Invalid request format",
         details: "Content-Type must be multipart/form-data",
-      });
-    }
-
-    // Validate Authorization header exists
-    const authHeader = req.get("authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      console.error(
-        `[${new Date().toISOString()}] Missing or invalid Authorization header`,
-      );
-      return res.status(401).json({
-        error: "Unauthorized",
-        details: "Authorization header is required",
       });
     }
 

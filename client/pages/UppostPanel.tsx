@@ -7,6 +7,7 @@ import { UploadIcon, ImageIcon } from "@/components/Icons";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { validateUploadInputs } from "@/lib/r2-upload";
+import { createServerSession } from "@/lib/firebase";
 
 export default function UppostPanel() {
   const navigate = useNavigate();
@@ -196,19 +197,20 @@ export default function UppostPanel() {
     setUploading(true);
 
     try {
-      // Get the ID token from the current Firebase user
+      // Verify user is authenticated
       if (!user) {
         throw new Error("User is not authenticated");
       }
 
-      const idToken = await user.getIdToken(true); // Force refresh to get fresh token
-      if (!idToken || idToken.trim().length === 0) {
-        throw new Error("Authentication token not available or empty");
+      // Ensure server session is active
+      // This is a safety check - normally the session is created during login
+      try {
+        const idToken = await user.getIdToken();
+        await createServerSession(idToken);
+      } catch (sessionError) {
+        console.warn("Session refresh failed:", sessionError);
+        // Continue anyway - session might still be valid via cookies
       }
-
-      console.log(
-        `[Upload] Token obtained successfully. Length: ${idToken.length}`,
-      );
 
       setUploadMessage("Uploading files to server...");
 
@@ -249,12 +251,11 @@ export default function UppostPanel() {
       try {
         uploadResponse = await fetch("/api/upload", {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-            // Note: Content-Type is NOT set for FormData - browser will set it with correct boundary
-          },
+          // Do NOT set Content-Type header for FormData - browser will set it with correct boundary
+          // Do NOT set Authorization header - session cookie will be sent automatically
           body: formData,
           signal: uploadAbortControllerRef.current.signal,
+          credentials: "include", // Important: Include cookies in the request
         });
         clearTimeout(uploadTimeout);
       } catch (fetchError) {
@@ -292,7 +293,7 @@ export default function UppostPanel() {
             " (This might be due to large file sizes. Try reducing the number of files or their sizes.)";
         } else if (uploadResponse.status === 401) {
           errorMsg +=
-            " (Your authentication token may have expired. Please sign out and sign in again.)";
+            " (Your session has expired. Please sign out and sign in again.)";
         } else if (uploadResponse.status === 403) {
           errorMsg +=
             " (Your email is not authorized to upload. Contact the administrator.)";
