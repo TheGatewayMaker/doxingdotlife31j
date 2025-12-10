@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, LogOut } from "lucide-react";
 import {
   HomeIcon,
@@ -14,6 +14,18 @@ export default function Header() {
   const { isAuthenticated, logout } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isSidebarOpen]);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
