@@ -54,7 +54,7 @@ export const handleDeletePost: RequestHandler = async (req, res) => {
       `[${new Date().toISOString()}] ✅ Successfully deleted post ${postId}`,
     );
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Post deleted successfully",
     });
@@ -67,6 +67,7 @@ export const handleDeletePost: RequestHandler = async (req, res) => {
     console.error("Full error details:", error);
 
     res.status(500).json({
+      success: false,
       error: "Failed to delete post",
       details:
         process.env.NODE_ENV === "development"
