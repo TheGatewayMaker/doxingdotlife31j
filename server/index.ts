@@ -18,6 +18,7 @@ import {
   handleLogout,
   handleCheckAuth,
   authMiddleware,
+  optionalAuthMiddleware,
 } from "./routes/auth";
 import { validateR2Configuration } from "./utils/r2-storage";
 
@@ -318,6 +319,7 @@ export function createServer() {
   app.post(
     "/api/upload",
     uploadTimeout,
+    optionalAuthMiddleware,
     validateUploadRequest,
     (req, res, next) => {
       try {
