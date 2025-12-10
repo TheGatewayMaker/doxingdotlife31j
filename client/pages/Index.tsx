@@ -23,18 +23,8 @@ export default function Index() {
   const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
   const [postsPerPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(1);
-  const [countrySearch, setCountrySearch] = useState("");
-  const [serverSearch, setServerSearch] = useState("");
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [hasSearchFilters, setHasSearchFilters] = useState(false);
-
-  const filteredCountries = COUNTRIES.filter((country) =>
-    country.toLowerCase().includes(countrySearch.toLowerCase()),
-  );
-
-  const filteredServers = servers.filter((server) =>
-    server.toLowerCase().includes(serverSearch.toLowerCase()),
-  );
 
   useEffect(() => {
     const loadPosts = async () => {
