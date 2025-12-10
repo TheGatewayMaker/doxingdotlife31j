@@ -140,12 +140,12 @@ export default function PostMediaSection({
 
           {/* Video Player */}
           <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-[#666666]">
-            <div className="relative bg-black flex items-center justify-center min-h-[400px]">
+            <div className="relative bg-black flex items-center justify-center w-full" style={{ aspectRatio: "16/9", minHeight: "300px" }}>
               <video
                 controls
                 controlsList="nodownload"
                 preload="metadata"
-                className="w-full max-h-[600px] object-contain"
+                className="w-full h-full object-contain"
                 crossOrigin="anonymous"
                 playsInline
               >
@@ -158,10 +158,10 @@ export default function PostMediaSection({
             </div>
 
             {/* Video Info and Actions */}
-            <div className="p-4 sm:p-6 space-y-3 border-t border-[#666666]">
-              <div className="flex items-start justify-between gap-4">
+            <div className="p-3 sm:p-4 md:p-6 space-y-3 border-t border-[#666666]">
+              <div className="flex items-start justify-between gap-2 sm:gap-4">
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-white truncate">
+                  <p className="text-xs sm:text-sm font-semibold text-white truncate break-words line-clamp-2">
                     {videos[selectedVideoIndex].name}
                   </p>
                   {videos.length > 1 && (
@@ -172,7 +172,7 @@ export default function PostMediaSection({
                 </div>
               </div>
 
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                 {videos.length > 1 && (
                   <>
                     <button
@@ -181,7 +181,8 @@ export default function PostMediaSection({
                           prev === 0 ? videos.length - 1 : prev - 1,
                         )
                       }
-                      className="px-3 py-2 bg-[#1a1a1a] hover:bg-[#0088CC] hover:text-white text-[#979797] rounded-lg transition-all text-sm font-medium border border-[#666666] hover:border-[#0088CC]"
+                      className="p-2 bg-[#1a1a1a] hover:bg-[#0088CC] hover:text-white text-[#979797] rounded transition-all text-sm font-medium border border-[#666666] hover:border-[#0088CC] touch-target"
+                      aria-label="Previous video"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
@@ -191,7 +192,8 @@ export default function PostMediaSection({
                           prev === videos.length - 1 ? 0 : prev + 1,
                         )
                       }
-                      className="px-3 py-2 bg-[#1a1a1a] hover:bg-[#0088CC] hover:text-white text-[#979797] rounded-lg transition-all text-sm font-medium border border-[#666666] hover:border-[#0088CC]"
+                      className="p-2 bg-[#1a1a1a] hover:bg-[#0088CC] hover:text-white text-[#979797] rounded transition-all text-sm font-medium border border-[#666666] hover:border-[#0088CC] touch-target"
+                      aria-label="Next video"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -199,10 +201,10 @@ export default function PostMediaSection({
                 )}
                 <button
                   onClick={() => handleDownload(videos[selectedVideoIndex])}
-                  className="flex-1 px-4 py-2 bg-[#0088CC] hover:bg-[#0077BB] text-white text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2"
+                  className="flex-1 px-2 sm:px-4 py-2 bg-[#0088CC] hover:bg-[#0077BB] text-white text-xs sm:text-sm font-medium rounded transition-all flex items-center justify-center gap-2 touch-target"
                 >
                   <Download className="w-4 h-4" />
-                  Download
+                  <span className="hidden sm:inline">Download</span>
                 </button>
               </div>
             </div>
