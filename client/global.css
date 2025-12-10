@@ -108,10 +108,12 @@ html {
     background: #000000;
     min-height: 100vh;
     transition: overflow 0.2s ease;
+    position: relative;
   }
 
   body.overflow-hidden {
     overflow: hidden;
+    height: 100vh;
   }
 
   h1,
@@ -308,6 +310,36 @@ html {
 }
 
 @layer utilities {
+  /* Touch-friendly tap targets (minimum 44x44px) */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Responsive image loading */
+  img[loading="lazy"] {
+    background-color: #0a0a0a;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    outline: 2px solid hsl(200, 100%, 40%);
+    outline-offset: 2px;
+  }
+
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid hsl(200, 100%, 40%);
+    outline-offset: 2px;
+  }
+
   .animate-fadeIn {
     animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0;
