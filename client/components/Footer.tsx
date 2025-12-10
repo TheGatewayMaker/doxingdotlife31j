@@ -14,8 +14,8 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#000000] border-t border-[#666666] mt-16 shadow-lg animate-slideInUp">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <footer className="w-full bg-[#000000] border-t border-[#666666] mt-12 sm:mt-16 lg:mt-20 shadow-lg animate-slideInUp">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-8">
           <div
             className="animate-slideInLeftFade"
