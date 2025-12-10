@@ -345,10 +345,7 @@ export function createServer() {
 
   // Admin routes (no auth required)
   app.delete("/api/posts/:postId", handleDeletePost);
-  app.delete(
-    "/api/posts/:postId/media/:fileName",
-    handleDeleteMediaFile,
-  );
+  app.delete("/api/posts/:postId/media/:fileName", handleDeleteMediaFile);
   app.put("/api/posts/:postId", handleUpdatePost);
 
   // Media proxy endpoint for additional CORS support
