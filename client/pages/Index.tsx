@@ -312,16 +312,16 @@ export default function Index() {
 
       <main className="flex-1 w-full">
         {/* Hero Section */}
-        <div className="bg-[#000000] py-8 md:py-16 border-b border-[#666666]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#000000] py-6 sm:py-10 md:py-16 lg:py-20 border-b border-[#666666]">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
             <div
               className="animate-slideInLeftFade"
               style={{ animationDelay: "0.1s" }}
             >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 text-white tracking-tighter leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-3 sm:mb-4 md:mb-5 text-white tracking-tighter leading-tight">
                 Doxing Dot Life
               </h1>
-              <p className="text-base sm:text-lg md:text-xl font-medium text-[#979797] mb-6 max-w-3xl">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-[#979797] mb-5 sm:mb-6 md:mb-8 max-w-3xl leading-relaxed">
                 The largest database of exposed individuals. Search, dox, and
                 expose information on anyone in our comprehensive directory.
               </p>
@@ -329,7 +329,7 @@ export default function Index() {
 
             {/* Search Bar */}
             <div
-              className="relative mb-6 sm:mb-8 animate-scaleUpFadeIn"
+              className="relative mb-5 sm:mb-6 md:mb-8 animate-scaleUpFadeIn"
               style={{ animationDelay: "0.2s" }}
             >
               <input
@@ -337,9 +337,9 @@ export default function Index() {
                 placeholder="Search by name, username, or details..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-[#1a1a1a] border border-[#666666] hover:border-[#0088CC] rounded-lg sm:rounded-xl text-white placeholder-[#979797] focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] text-sm sm:text-base transition-all shadow-lg hover:shadow-[#0088CC]/30 hover:shadow-xl"
+                className="w-full px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 bg-[#1a1a1a] border border-[#666666] hover:border-[#0088CC] rounded-lg md:rounded-xl text-white placeholder-[#979797] focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] text-sm sm:text-base transition-all shadow-lg hover:shadow-[#0088CC]/30 hover:shadow-xl min-h-[44px] touch-target"
               />
-              <Search className="absolute right-4 sm:right-6 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#979797] pointer-events-none" />
+              <Search className="absolute right-3 sm:right-4 md:right-6 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#979797] pointer-events-none" />
             </div>
 
             {/* Filters Section */}
@@ -347,10 +347,10 @@ export default function Index() {
               className="animate-slideInUp"
               style={{ animationDelay: "0.3s" }}
             >
-              <p className="text-xs sm:text-sm font-bold text-[#666666] uppercase tracking-wider mb-4">
+              <p className="text-xs sm:text-sm font-bold text-[#666666] uppercase tracking-wider mb-3 sm:mb-4">
                 Refine Your Search
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 md:gap-4">
                 {/* Country Dropdown */}
                 <div className="relative group">
                   <label className="text-xs sm:text-sm font-bold text-white block mb-2 flex items-center gap-2">
