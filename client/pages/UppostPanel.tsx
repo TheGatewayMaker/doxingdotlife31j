@@ -794,32 +794,32 @@ export default function UppostPanel() {
             </div>
 
             {/* NSFW Checkbox */}
-            <div className="relative overflow-hidden">
-              <div className="relative flex items-center gap-3 bg-red-900/15 border-2 border-red-600/40 hover:border-red-600/60 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/10">
+            <div className="relative overflow-hidden animate-slideInLeft" style={{ animationDelay: "0.53s" }}>
+              <div className="relative flex items-start sm:items-center gap-3 bg-red-900/15 border-2 border-red-600/40 hover:border-red-600/60 rounded-lg sm:rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/10">
                 <input
                   type="checkbox"
                   id="nsfw-checkbox"
                   checked={nsfw}
                   onChange={(e) => setNsfw(e.target.checked)}
-                  className="w-5 h-5 accent-red-600 rounded cursor-pointer flex-shrink-0"
+                  className="w-4 h-4 sm:w-5 sm:h-5 accent-red-600 rounded cursor-pointer flex-shrink-0 mt-0.5 sm:mt-0"
                 />
                 <label
                   htmlFor="nsfw-checkbox"
                   className="flex-1 cursor-pointer"
                 >
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-0.5 sm:mb-1">
                     <svg
-                      className="w-4 h-4 text-red-400 flex-shrink-0"
+                      className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                     </svg>
-                    <p className="text-sm font-bold text-red-400">
+                    <p className="text-xs sm:text-sm font-bold text-red-400">
                       Mark as NSFW Content
                     </p>
                   </div>
-                  <p className="text-xs text-red-300/80 ml-6">
+                  <p className="text-xs text-red-300/80 ml-5.5 sm:ml-6">
                     This content is Not Safe For Work and requires age
                     verification
                   </p>
