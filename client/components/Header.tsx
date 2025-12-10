@@ -77,20 +77,18 @@ export default function Header() {
         >
           <Link
             to="/"
-            className="flex items-center gap-2 text-sm font-semibold text-[#979797] hover:text-white transition-all duration-200 hover:scale-110 relative group"
+            className="flex items-center gap-2 text-sm font-semibold text-[#979797] hover:text-white transition-all duration-200 hover:scale-110 group"
           >
             <HomeIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:text-[#0088CC]" />
             <span className="hidden xl:inline group-hover:text-[#0088CC]">
               Home
             </span>
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0088CC] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
           </Link>
           <Link
             to="/all-posts"
-            className="text-sm font-semibold text-[#979797] hover:text-white transition-all duration-200 relative group"
+            className="text-sm font-semibold text-[#979797] hover:text-white transition-all duration-200 group"
           >
             <span className="group-hover:text-[#0088CC]">Posts</span>
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0088CC] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
           </Link>
           <Link
             to="/dox-anyone"
