@@ -161,6 +161,16 @@ export default function DoxAnyone() {
               Dox Now
               <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
+            <div className="mt-4 sm:mt-6">
+              <a
+                href="https://discord.gg/95eC83gtFN"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0088CC] hover:text-[#00C4FF] font-semibold text-sm transition-colors duration-300"
+              >
+                Or join our Discord community
+              </a>
+            </div>
           </div>
         </div>
       </main>
