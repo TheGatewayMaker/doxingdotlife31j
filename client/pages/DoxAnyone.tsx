@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function DoxAnyone() {
   const handleDoxNow = () => {
-    window.open("https://discord.com", "_blank");
+    window.open("https://discord.gg/95eC83gtFN", "_blank");
   };
 
   return (
